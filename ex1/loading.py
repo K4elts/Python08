@@ -49,6 +49,7 @@ def generate_matrix_data() -> list[int]:
 def analyze_matrix_data(data: list[int]) -> None:
     pandas = MODULES["pandas"]
     df = pandas.DataFrame(data, columns=["Energy"])
+    print("Showing first 5 data...")
     print(df.head(5))
     print()
     print("Mean: ", df["Energy"].mean())

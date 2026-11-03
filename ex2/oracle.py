@@ -1,5 +1,8 @@
 import os
-from dotenv import load_dotenv
+try:
+    from dotenv import load_dotenv
+except ModuleNotFoundError as e:
+    print(f"Module error: {e}")
 
 
 def get_config() -> dict[str, str | None]:
@@ -20,20 +23,20 @@ def get_config() -> dict[str, str | None]:
 def load_config(env_dict: dict[str, str | None]) -> None:
     print()
     print("Configuration loaded:")
-    print(f"Mode: {env_dict["MATRIX_MODE"]}")
+    print(f"Mode: {env_dict['MATRIX_MODE']}")
     if env_dict["DATABASE_URL"] and env_dict["MATRIX_MODE"] == "development":
         print("Database: Connected to local instance")
     elif env_dict["DATABASE_URL"] and env_dict["MATRIX_MODE"] == "production":
         print("Database: Connected to production "
               f"({env_dict['DATABASE_URL']})")
     else:
-        print(f"Database: {env_dict["DATABASE_URL"]}")
+        print(f"Database: {env_dict['DATABASE_URL']}")
     if env_dict["API_KEY"]:
         print("API Access: Authenticated")
     else:
-        print(f"API Access: {env_dict["API_KEY"]}")
-    print(f"Log Level: {env_dict["LOG_LEVEL"]}")
-    print(f"Zion Network: {env_dict["ZION_ENDPOINT"]}")
+        print(f"API Access: {env_dict['API_KEY']}")
+    print(f"Log Level: {env_dict['LOG_LEVEL']}")
+    print(f"Zion Network: {env_dict['ZION_ENDPOINT']}")
     print()
 
 
@@ -59,7 +62,10 @@ def security_check(env_dict: dict[str, str | None]) -> None:
 if __name__ == "__main__":
     print()
     print("ORACLE STATUS: Reading the Matrix...")
-    load_dotenv()
+    try:
+        load_dotenv()
+    except NameError as e:
+        print(f"Error: {e.name}")
     env_dict = get_config()
     load_config(env_dict)
     security_check(env_dict)
